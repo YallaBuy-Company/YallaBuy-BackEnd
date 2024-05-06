@@ -1,26 +1,28 @@
-const User = require('../models/users');
+import User from '../models/users.js';
 
-exports.getAllUsers = async () => {
-  try {
-    const users = await User.find();
-    return users;
-  } catch (error) {
-    throw error; // Re-throw for controller to handle
-  }
-};
+export default{
+  getAllUsers : async () => {
+    try {
+      const users = await User.find();
+      return users;
+    } catch (error) {
+      throw error; // Re-throw for controller to handle
+    }
+  },
 
-exports.createUser = async (newUser) => {
+  createUser : async (newUser) => {
 
-};
+  },
 
-exports.getUserById = async (id) => {
+  getUserById : async (id) => {
 
-};
+  },
 
-exports.updateUser = async (id, updatedUser) => {
+  updateUser : async (id, updatedUser) => {
 
-};
+  },
 
-exports.deleteUser = async (id) => {
+  deleteUser : async (id) => {
 
+  },
 };
