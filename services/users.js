@@ -1,28 +1,28 @@
 import User from '../models/users.js';
 
-export default{
-  getAllUsers : async () => {
+
+  const getAllUsers = async () => {
     try {
       const users = await User.find();
       return users;
     } catch (error) {
       throw error; // Re-throw for controller to handle
     }
-  },
+  };
 
-  createUser : async (newUser) => {
+  const createUser = async (newUser) => {
 
-  },
+  };
 
-  getUserById : async (id) => {
+  const getUserById = async (id) => {
 
-  },
+  };
 
-  updateUser : async (id, updatedUser) => {
+  const updateUser = async (id, updatedUser) => {
+  };
 
-  },
+  const deleteUser = async (id) => {
 
-  deleteUser : async (id) => {
+  };
 
-  },
-};
+export default {getAllUsers,createUser,getUserById,updateUser,deleteUser}
