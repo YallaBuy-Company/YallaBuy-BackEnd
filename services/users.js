@@ -1,7 +1,7 @@
 import User from '../models/users.js';
 import Team from '../models/teams.js';
 
-const bcrypt = require('bcryptjs'); // For password hashing
+import bcrypt from 'bcryptjs'; // For password hashing
 
 const getAllUsers = async () => {
   try {

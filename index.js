@@ -31,7 +31,7 @@ app.use('/auth', authRouter);
 //app.use('/countries', countriesRouter); 
 //app.use('/leagues', leaguesRouter); 
 //app.use('/teams', teamsRouter); 
-app.use('/favoritegames',auth, favoriteGamesRouter);
+//app.use('/favoritegames',auth, favoriteGamesRouter);
 
 
 app.listen(port, () => {

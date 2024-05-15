@@ -1,7 +1,8 @@
 import { validationResult } from 'express-validator';
 import userSchema from '../models/users.js'; 
+import { body } from 'express-validator'; // Import only the body function
 
-const validateCreateUser = [
+export const validateCreateUser = [
   body('email')
     .exists({ checkNull: true, errMsg: 'Email is required' })
     .isEmail()
@@ -42,7 +43,7 @@ const validateCreateUser = [
 
 ];
 
-const handleValidationErrors = (req, res, next) => {
+export const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ message: 'Validation errors', errors: errors.array() });
@@ -50,7 +51,4 @@ const handleValidationErrors = (req, res, next) => {
   next(); // Proceed to controller logic if no errors
 };
 
-export default {
-  validateCreateUser,
-  handleValidationErrors
-};
+

@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import userService from '../services/users'; // Corrected spelling
+import userService from '../services/users.js'; // Corrected spelling
 import dotenv from 'dotenv';
 
 dotenv.config();
