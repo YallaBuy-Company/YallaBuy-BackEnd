@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import usersRouter from './routes/users.js';
+import authRouter from './routes/authRoutes.js';
+import { auth } from './middlewares/authMiddleware.js';
+
 //import countriesRouter from './routes/countries.js';
 //import leaguesRouter from './routes/leagues.js';
 //import teamsRouter from './routes/teams.js';
@@ -23,11 +26,12 @@ mongoose.connect(mongoUrl, {
 .catch(error => console.error('Error connecting to MongoDB Atlas:', error));
 
 
-app.use('/users', usersRouter);
+app.use('/users',auth, usersRouter);
+app.use('/auth', authRouter);
 //app.use('/countries', countriesRouter); 
 //app.use('/leagues', leaguesRouter); 
 //app.use('/teams', teamsRouter); 
-//app.use('/favoritegames', favoriteGamesRouter);
+//app.use('/favoritegames',auth, favoriteGamesRouter);
 
 
 app.listen(port, () => {
