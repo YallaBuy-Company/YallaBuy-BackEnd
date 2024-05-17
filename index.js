@@ -1,18 +1,24 @@
-const express = require('express');
-const mongoose = require('mongoose');
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv'; 
 
-const usersRouter = require('./routes/users');
-const countriesRouter = require('./routes/countries');
-const leaguesRouter = require('./routes/countries');
-const teamsRouter = require('./routes/countries');
-const favoriteGamesRouter = require('./routes/countries');
+dotenv.config();
+
+import usersRouter from './routes/users.js';
+import authRouter from './routes/authRoutes.js';
+import { auth } from './middlewares/authMiddleware.js';
+
+//import countriesRouter from './routes/countries.js';
+//import leaguesRouter from './routes/leagues.js';
+//import teamsRouter from './routes/teams.js';
+//import favoriteGamesRouter from './routes/favoriteGames.js'; 
 
 const app = express();
-const port = 3000;
 
-const mongoURI = 'mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/<database-name>?retryWrites=true&w=majority';
+const port = process.env.PORT;
+const mongoUrl = process.env.MONGO_URL;
 
-mongoose.connect(mongoURI, {
+mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -20,15 +26,16 @@ mongoose.connect(mongoURI, {
 .catch(error => console.error('Error connecting to MongoDB Atlas:', error));
 
 
-app.use('/users', usersRouter);
-app.use('/countries', countriesRouter); 
-app.use('/leagues', leaguesRouter); 
-app.use('/teams', teamsRouter); 
-app.use('/favoritegames', favoriteGamesRouter); // ! be aware : path should be - lowercase
+app.use('/users',auth, usersRouter);
+app.use('/auth', authRouter);
+//app.use('/countries', countriesRouter); 
+//app.use('/leagues', leaguesRouter); 
+//app.use('/teams', teamsRouter); 
+//app.use('/favoritegames',auth, favoriteGamesRouter);
 
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-module.exports = app;
+export default app;
