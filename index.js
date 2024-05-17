@@ -9,7 +9,7 @@ import authRouter from './routes/authRoutes.js';
 import { auth } from './middlewares/authMiddleware.js';
 
 //import countriesRouter from './routes/countries.js';
-//import leaguesRouter from './routes/leagues.js';
+import leaguesRouter from './routes/leagues.js';
 //import teamsRouter from './routes/teams.js';
 //import favoriteGamesRouter from './routes/favoriteGames.js'; 
 
@@ -29,7 +29,7 @@ mongoose.connect(mongoUrl, {
 app.use('/users',auth, usersRouter);
 app.use('/auth', authRouter);
 //app.use('/countries', countriesRouter); 
-//app.use('/leagues', leaguesRouter); 
+app.use('/leagues', leaguesRouter); 
 //app.use('/teams', teamsRouter); 
 //app.use('/favoritegames',auth, favoriteGamesRouter);
 
