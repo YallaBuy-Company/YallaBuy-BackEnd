@@ -26,7 +26,7 @@ mongoose.connect(mongoUrl, {
 .catch(error => console.error('Error connecting to MongoDB Atlas:', error));
 
 
-app.use('/users',auth, usersRouter);
+app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 //app.use('/countries', countriesRouter); 
 app.use('/leagues', leaguesRouter); 
