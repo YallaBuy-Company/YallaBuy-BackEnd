@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     ref: 'teams' // Reference to teams model
   },
   games: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: Object,
     ref: 'Game' // Reference to Game model (if you have one)
   }],
   isAdmin: {
