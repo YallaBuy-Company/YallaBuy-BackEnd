@@ -36,7 +36,10 @@ const fetchVenues = async (req, res) => {
     }
 
     // Filter out venues that do not match the specified country
-    const filteredVenues = venues.filter(venue => venue.country === country);
+    let filteredVenues = venues.filter(venue => venue.country === country);
+    if (city) {
+      filteredVenues = filteredVenues.filter(venue => venue.city === city);
+    }
 
     if (!filteredVenues.length) {
       return res.status(404).json({ message: 'No venues found in the specified country' });
