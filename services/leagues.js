@@ -1,48 +1,22 @@
 import League from '../models/leagues.js';
 
-const createLeague = async (leagueData) => {
-  const league = new League(leagueData);
-  return await league.save();
-};
-
 const getAllLeagues = async () => {
-  return await League.find({});
-};
+    try {
+      const leagues = await League.find();
+      return leagues;
+    } catch (error) {
+      throw error; // Re-throw for controller to handle
+    }
+  };
 
-const getLeagueById = async (id) => {
-  return await League.findById(id);
-};
+  const getAllLeagueNames = async () => {
+    try {
+      // Use projection to include only `_id` and `name`
+      const leagues = await League.find({}, '_id name');
+      return leagues;
+    } catch (error) {
+      throw error; // Re-throw for controller to handle
+    }
+  };
 
-const updateLeague = async (id, updateData) => {
-  const updates = Object.keys(updateData);
-  const allowedUpdates = ['apiId', 'name', 'type', 'logo', 'country'];
-  const isValidOperation = updates.every(update => allowedUpdates.includes(update));
-
-  if (!isValidOperation) {
-    throw new Error('Invalid updates!');
-  }
-
-  const league = await League.findById(id);
-  if (!league) {
-    throw new Error('League not found');
-  }
-
-  updates.forEach(update => league[update] = updateData[update]);
-  return await league.save();
-};
-
-const deleteLeague = async (id) => {
-  const league = await League.findByIdAndDelete(id);
-  if (!league) {
-    throw new Error('League not found');
-  }
-  return league;
-};
-
-export default {
-  createLeague,
-  getAllLeagues,
-  getLeagueById,
-  updateLeague,
-  deleteLeague
-};
+  export default{ getAllLeagues , getAllLeagueNames};
