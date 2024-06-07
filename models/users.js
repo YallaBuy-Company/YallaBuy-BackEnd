@@ -19,20 +19,23 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   age: {
+    required:true,
     type: Number,
     min: 0 // Optional validation for minimum age
   },
-  favoriteTeam: {
+  /*favoriteTeam: {
+    required: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: 'teams' // Reference to teams model
-  },
+  },*/
   games: [{
     type: Object,
     ref: 'Game' // Reference to Game model (if you have one)
   }],
   isAdmin: {
-    type: Boolean,
-    required: true
+    required: true,
+    default: false,
+    type: Boolean
   }
 });
 

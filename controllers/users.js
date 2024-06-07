@@ -38,6 +38,23 @@ const getUserById = async (req, res) => {
   }
 };
 
+const getUserDetails = async (req, res) => {
+  const userId = req.query.email;
+  console.log(userId);
+  try {
+    const user = await userService.findUserByEmail(userId);
+    if (!user) {
+      console.log("err1");
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const { _id, passwordHash, salt, isAdmin, ...details } = user.toObject({ getters: true, virtuals: false });
+    console.log(details);
+    res.json(details);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user' });
+  }
+};
+
 const updateUser = async (req, res) => {
   const userId = req.params.id;
   const updatedData = req.body;
@@ -109,4 +126,4 @@ const deleteFavorite = async (req, res) => {
 
 
 
-export default { getUsers, createUser, getUserById, updateUser, addFavorite, deleteUser, deleteFavorite};
+export default { getUsers, createUser, getUserById,getUserDetails, updateUser, addFavorite, deleteUser, deleteFavorite};
