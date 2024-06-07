@@ -1,4 +1,3 @@
-import { validationResult } from 'express-validator';
 import userSchema from '../models/users.js'; 
 import { body } from 'express-validator'; // Import only the body function
 
@@ -42,13 +41,5 @@ export const validateCreateUser = [
     .withMessage('Password must contain only letters and numbers'),
 
 ];
-
-export const handleValidationErrors = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ message: 'Validation errors', errors: errors.array() });
-  }
-  next(); // Proceed to controller logic if no errors
-};
 
 
