@@ -79,9 +79,11 @@ const updateUser = async (req, res) => {
 const addFavorite = async (req, res) => {
   const userId = req.params.id;
   const newFav= req.body;
+  console.log(userId);
+  console.log(newFav);
 
   try {
-    const user = await userService.getUserById(userId);
+    const user = await userService.findUserByEmail(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -110,15 +112,18 @@ const deleteUser = async (req, res) => {
 const deleteFavorite = async (req, res) => {
   const userId = req.params.id;
   const gameIdToDelete = req.body.gameId; // Assuming gameId is sent in the request body
+  console.log(userId);
+  console.log(gameIdToDelete);
 
   try {
-    const user = await userService.getUserById(userId);
+    const user = await userService.findUserByEmail(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     // Filter the user.games array to exclude the game with the matching ID
-    const filteredGames = user.games.filter((game) => game._id.toString() !== gameIdToDelete);
+
+    const filteredGames = user.games.filter((game) => game.id.toString() !== gameIdToDelete);
     user.games = filteredGames;
 
     await user.save(); // Save the updated user document
