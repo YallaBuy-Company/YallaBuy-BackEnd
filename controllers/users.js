@@ -56,7 +56,7 @@ const getUserDetails = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.body.email; // Assuming the email is sent in the request body
   const updatedData = req.body;
 
   try {
@@ -64,9 +64,14 @@ const updateUser = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.json(updatedUser);
+
+    res.status(200).json({ message: 'User updated successfully'});
   } catch (error) {
-    // Handle potential validation errors or conflicts (similar to createUser)
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: 'Validation error', errors: error.errors });
+    } else if (error.message === 'Old password is incorrect') {
+      return res.status(400).json({ message: 'Old password is incorrect' });
+    }
     res.status(500).json({ message: 'Error updating user' });
   }
 };
