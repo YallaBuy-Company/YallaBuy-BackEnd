@@ -32,13 +32,7 @@ const login = async (req, res) => {
 };
 
 const signup = async (req, res) => {
-    console.log('req.body:', req.body);
     const userData = req.body;
-    console.log('password:', userData.password);
-    console.log('email:', userData.email);
-    console.log('age:', userData.age);
-    console.log('fullName:', userData.fullName);
-
     try {
         const newUser = await userService.createUser(userData);
         const token = jwt.sign({ email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });

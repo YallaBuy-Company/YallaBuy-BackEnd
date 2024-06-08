@@ -14,7 +14,6 @@ const getAllUsers = async () => {
 };
 
 const createUser = async (userData) => {
-  console.log('userData:', userData); // Log the entire object
   const { password, ...otherUserData } = userData;
 
   try {
