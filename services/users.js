@@ -48,21 +48,56 @@ const getUserById = async (id) => {
   }
 };
 
+
 const updateUser = async (userId, updatedData) => {
-  if (updatedData.password) {
+  const { games, isAdmin, oldPassword, newPassword, ...userDataToUpdate } = updatedData;
+
+  // Check if both old password and new password are provided
+  if (oldPassword && newPassword) {
+    // Find the user by email to get the stored password hash
+    const user = await findUserByEmail(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Check if the old password hash matches the stored password hash
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.passwordHash);
+
+    if (!isPasswordValid) {
+      throw new Error('Old password is incorrect');
+    }
+
+    // Hash the new password and update the user's passwordHash field
     const salt = await bcrypt.genSalt(10);
-    updatedData.passwordHash = await bcrypt.hash(updatedData.password, salt);
-    delete updatedData.password; // Remove plain text password after hashing
+    userDataToUpdate.passwordHash = await bcrypt.hash(newPassword, salt);
   }
 
   try {
-    const user = await User.findByIdAndUpdate(userId, updatedData, { new: true });
+    // Construct the update object based on fields to update
+    let updateObject = { ...userDataToUpdate };
+    // If isAdmin is not provided in the update data, default it to false
+    if (isAdmin === undefined) {
+      updateObject.isAdmin = false;
+    }
+
+    // Find the user by email and update only the specified fields
+    const user = await User.findOneAndUpdate({ email: userId }, updateObject, { new: true });
+
+    // Check if games were sent in the update data, if not, update the user's games array
+    if (!games) {
+      user.games = games; // Set the games array to the existing value in the database
+      await user.save(); // Save the updated user document
+    }
+
     return user;
   } catch (error) {
     console.error(error); // Log the error for debugging
     throw new Error('Error updating user'); // Throw a more specific error message
   }
 };
+
+
 
 const deleteUser = async (id) => {
   try {
